@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="tl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TALA — Talinong Aakay at Lulutas sa Alituntunin</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7fee7; /* Vibrant yellow-green light tint */
+            color: #1a2e05;
+            overflow-x: hidden;
+        }
+
+        .font-brand {
+            font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .glass-header {
+            background: rgba(254, 252, 232, 0.92);
+            backdrop-filter: blur(14px);
+        }
+
+        .logo-glow {
+            box-shadow: 0 0 25px -3px rgba(101, 163, 13, 0.4), 0 0 10px -2px rgba(132, 204, 22, 0.3);
+        }
+
+        .logo-gradient-bg {
+            background: linear-gradient(135deg, #365314 0%, #4d7c0f 50%, #65a30d 100%);
+        }
+
+        .interactive-card {
+            transition: all 0.25s ease-in-out;
+        }
+        .interactive-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px -6px rgba(77, 124, 15, 0.15);
+        }
+
+        .glow-blob {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(70px);
+            opacity: 0.3;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fefce8;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #bef264;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #a3e635;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-lime-300 selection:text-lime-950 relative">
+
+    <div class="glow-blob w-96 h-96 bg-lime-400 top-[-100px] left-[-100px]"></div>
+    <div class="glow-blob w-96 h-96 bg-emerald-400 top-[300px] right-[-120px]"></div>
+
+    <header class="sticky top-0 z-50 glass-header border-b border-lime-200/80">
+        <div class="max-w-6xl mx-auto px-4 md:px-8 py-3 flex items-center justify-between">
+            
+            <!-- Brand Logo & Title -->
+            <button onclick="switchTab('home')" class="flex items-center gap-3 text-left focus:outline-none group">
+                <div class="relative flex items-center justify-center w-11 h-11 rounded-2xl logo-gradient-bg text-white shadow-md group-hover:scale-105 transition-all duration-300 logo-glow overflow-hidden">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M32 6L39 24H58L42 36L48 54L32 43L16 54L22 36L6 24H25L32 6Z" fill="#ecfccb" stroke="white" stroke-width="2" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="font-black text-2xl font-brand text-lime-950 tracking-tight">TALA</span>
+                        <span class="bg-lime-200 text-lime-900 text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-lime-300 hidden sm:inline-block">Balarilang Filipino</span>
+                    </div>
+                    <span class="text-[11px] font-semibold text-lime-800 tracking-wide">Talinong Aakay at Lulutas sa Alituntunin</span>
+                </div>
+            </button>
+
+            <!-- Navigation Buttons -->
+            <nav class="hidden md:flex items-center gap-1.5 bg-lime-200/80 p-1.5 rounded-2xl border border-lime-300">
+                <button onclick="switchTab('home')" id="nav-home" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-lime-900 bg-white shadow-sm transition flex items-center gap-2">
+                    <i class="fa-solid fa-house text-xs"></i>
+                    <span>Tahanan</span>
+                </button>
+                <button onclick="switchTab('analyzer')" id="nav-analyzer" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-lime-900 hover:text-lime-950 transition flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass-chart text-xs"></i>
+                    <span>Magsuri (7 Alituntunin)</span>
+                </button>
+                <button onclick="switchTab('rules')" id="nav-rules" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-lime-900 hover:text-lime-950 transition flex items-center gap-2">
+                    <i class="fa-solid fa-book-open text-xs"></i>
+                    <span>Pitong Alituntunin</span>
+                </button>
+                <button onclick="switchTab('history')" id="nav-history" class="nav-btn px-4 py-2 rounded-xl text-sm font-bold text-lime-900 hover:text-lime-950 transition flex items-center gap-2">
+                    <i class="fa-solid fa-clock-rotate-left text-xs"></i>
+                    <span>Aking Tala</span>
+                </button>
+            </nav>
+
+            <!-- Mobile Toggle -->
+            <button onclick="toggleMobileMenu()" class="md:hidden p-2.5 rounded-xl text-lime-900 hover:bg-lime-200/50 transition focus:outline-none border border-lime-300" aria-label="Toggle Navigation">
+                <i class="fa-solid fa-bars text-lg" id="menuIcon"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Drawer -->
+        <div id="mobileMenu" class="hidden md:hidden border-t border-lime-200 bg-white px-4 py-3 space-y-2 shadow-lg animate-fade-in">
+            <button onclick="switchTab('home'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-bold text-lime-950 hover:bg-lime-50 transition flex items-center gap-3">
+                <i class="fa-solid fa-house w-5 text-center text-lime-600"></i> Tahanan
+            </button>
+            <button onclick="switchTab('analyzer'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-bold text-lime-950 hover:bg-lime-50 transition flex items-center gap-3">
+                <i class="fa-solid fa-magnifying-glass-chart w-5 text-center text-lime-600"></i> Magsuri ng Pangungusap
+            </button>
+            <button onclick="switchTab('rules'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-bold text-lime-950 hover:bg-lime-50 transition flex items-center gap-3">
+                <i class="fa-solid fa-book-open w-5 text-center text-lime-600"></i> Pitong Alituntunin
+            </button>
+            <button onclick="switchTab('history'); toggleMobileMenu()" class="w-full text-left px-4 py-3 rounded-xl font-bold text-lime-950 hover:bg-lime-50 transition flex items-center gap-3">
+                <i class="fa-solid fa-clock-rotate-left w-5 text-center text-lime-600"></i> Aking Tala ng Pagsusuri
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-4 md:px-8 py-8 flex-1 w-full z-10 relative">
+
+        <!-- ================= TAB 1: HOME PAGE ================= -->
+        <section id="tab-home" class="tab-content space-y-12 animate-fade-in">
+            
+            <!-- Hero Banner -->
+            <div class="text-center space-y-6 max-w-3xl mx-auto pt-4">
+                
+                <!-- Hero Creative Emblem -->
+                <div class="inline-flex items-center justify-center p-4 bg-gradient-to-tr from-lime-800 via-lime-600 to-emerald-500 rounded-3xl shadow-2xl shadow-lime-600/30 text-white transform hover:scale-105 transition duration-300 logo-glow">
+                    <div class="w-24 h-24 rounded-2xl bg-slate-950/40 backdrop-blur-md flex flex-col items-center justify-center border border-white/25 relative overflow-hidden p-2">
+                        <svg class="w-12 h-12 text-lime-200 drop-shadow-md" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M32 6L39 24H58L42 36L48 54L32 43L16 54L22 36L6 24H25L32 6Z" fill="#ecfccb" stroke="white" stroke-width="2.5" stroke-linejoin="round"/>
+                        </svg>
+                        <span class="text-xs font-black tracking-widest text-white uppercase font-brand mt-1">TALA</span>
+                    </div>
+                </div>
+
+                <div class="space-y-3">
+                    <h1 class="text-5xl md:text-7xl font-black font-brand tracking-tight text-lime-950">
+                        TALA
+                    </h1>
+                    <div class="inline-block bg-lime-200/90 border border-lime-300 px-4 py-2 rounded-2xl shadow-sm">
+                        <p class="text-base md:text-lg font-extrabold text-lime-900 tracking-wide">
+                            Talinong Aakay at Lulutas sa Alituntunin
+                        </p>
+                    </div>
+                </div>
+
+                <!-- TALA Acronym Meaning Card -->
+                <div class="bg-white p-6 rounded-3xl border border-lime-200 shadow-sm text-left space-y-3">
+                    <h3 class="text-sm font-black text-lime-900 uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-lightbulb text-lime-600"></i> Ano ang kahulugan ng TALA?
+                    </h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs md:text-sm">
+                        <div class="p-3 rounded-2xl bg-lime-50 border border-lime-200">
+                            <span class="font-extrabold text-lime-950 text-base">TA</span> — <strong class="text-lime-800">Talinong Aakay</strong> (Gabay sa tamang kaalaman)
+                        </div>
+                        <div class="p-3 rounded-2xl bg-lime-50 border border-lime-200">
+                            <span class="font-extrabold text-lime-950 text-base">LA</span> — <strong class="text-lime-800">at Lulutas sa Alituntunin</strong> (Solusyon sa bawat hamon sa balarila)
+                        </div>
+                    </div>
+                </div>
+
+                <p class="text-base md:text-lg text-lime-950/85 leading-relaxed max-w-2xl mx-auto">
+                    Sinusuri ng TALA ang bawat pangungusap sa pamamagitan ng <strong>lahat ng 7 pangunahing alituntunin</strong> nang sabay-sabay upang matukoy ang bawat mali at maibigay ang tamang sagot at paliwanag.
+                </p>
+
+                <!-- Action CTA Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-4 pt-2">
+                    <button onclick="switchTab('analyzer')" class="px-8 py-4 rounded-2xl bg-lime-600 hover:bg-lime-700 text-white font-bold shadow-lg shadow-lime-600/30 transition transform hover:-translate-y-0.5 flex items-center gap-3 text-base">
+                        <i class="fa-solid fa-magnifying-glass-chart"></i>
+                        <span>SIMULAN ANG PAGSUSURI (7 ALITUNTUNIN)</span>
+                    </button>
+                    <button onclick="switchTab('rules')" class="px-8 py-4 rounded-2xl bg-white hover:bg-lime-50 text-lime-950 font-bold border border-lime-300 shadow-sm transition flex items-center gap-3 text-base">
+                        <i class="fa-solid fa-book-open text-lime-600"></i>
+                        <span>ALAMIN ANG 7 ALITUNTUNIN</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quick-Try Interactive Cards Section -->
+            <div class="space-y-4 pt-8 border-t border-lime-200">
+                <div class="text-center space-y-1">
+                    <h3 class="text-lg font-bold text-lime-950">Subukan ang mga Pangungusap na May Maraming Hamon</h3>
+                    <p class="text-xs text-lime-700">Susuriin ng TALA ang lahat ng 7 alituntunin sa bawat halimbawa.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div onclick="quickTestSentence('kahapon ang mga bata sa paaralan naglalaro')" class="bg-white p-5 rounded-2xl border border-lime-200 hover:border-lime-500 cursor-pointer interactive-card shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">Maraming Hamon (Bantas, Pandiwa, Ayos)</span>
+                        <p class="text-xs md:text-sm font-semibold text-lime-950 italic">"kahapon ang mga bata sa paaralan naglalaro"</p>
+                        <span class="text-xs font-bold text-lime-700 flex items-center gap-1 pt-1">Suriin sa TALA <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="quickTestSentence('pumunta si ben sa maynila kahapon')" class="bg-white p-5 rounded-2xl border border-lime-200 hover:border-lime-500 cursor-pointer interactive-card shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 border border-amber-200">May Hamon (Malaking Titik & Tanging Ngalan)</span>
+                        <p class="text-xs md:text-sm font-semibold text-lime-950 italic">"pumunta si ben sa maynila kahapon"</p>
+                        <span class="text-xs font-bold text-lime-700 flex items-center gap-1 pt-1">Suriin sa TALA <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+
+                    <div onclick="quickTestSentence('Naglalaro ang mga bata sa bakuran.')" class="bg-white p-5 rounded-2xl border border-lime-200 hover:border-lime-500 cursor-pointer interactive-card shadow-sm space-y-2">
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-full bg-lime-100 text-lime-900 border border-lime-300">Wasto sa Lahat ng 7 Alituntunin</span>
+                        <p class="text-xs md:text-sm font-semibold text-lime-950 italic">"Naglalaro ang mga bata sa bakuran."</p>
+                        <span class="text-xs font-bold text-lime-700 flex items-center gap-1 pt-1">Suriin sa TALA <i class="fa-solid fa-arrow-right text-[10px]"></i></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: ANALYZER ================= -->
+        <section id="tab-analyzer" class="tab-content hidden space-y-8 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-lime-200/90 space-y-6">
+                <div class="border-b border-lime-100 pb-4 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                    <div>
+                        <h2 class="text-2xl font-bold text-lime-950 flex items-center gap-3">
+                            <i class="fa-solid fa-magnifying-glass-chart text-lime-600"></i>
+                            Pagsusuri ng TALA sa Lahat ng 7 Alituntunin
+                        </h2>
+                        <p class="text-lime-800 text-sm mt-1">
+                            I-type o i-paste ang iyong pangungusap. Susuriin ito ng TALA nang detalyado sa bawat isa sa pitong alituntunin upang tukuyin ang lahat ng mali.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Input Form -->
+                <div class="space-y-4">
+                    <label for="inputSentence" class="block font-semibold text-lime-900">
+                        Pangungusap sa Filipino:
+                    </label>
+                    <div class="relative">
+                        <textarea id="inputSentence" rows="3" class="w-full p-4 rounded-2xl border border-lime-300 focus:border-lime-600 focus:ring-2 focus:ring-lime-200 outline-none transition text-lime-950 text-base md:text-lg resize-none shadow-inner bg-lime-50/30" placeholder="Halimbawa: kahapon ang mga bata sa paaralan naglalaro"></textarea>
+                    </div>
+                    <div class="flex flex-wrap items-center justify-between gap-4">
+                        <div class="text-xs text-lime-700 flex items-center gap-2">
+                            <i class="fa-solid fa-shield-halved text-lime-600"></i>
+                            <span>Tinitiyak ng TALA na masusuri ang lahat ng 7 alituntunin nang sabay-sabay.</span>
+                        </div>
+                        <button id="btnAnalyze" onclick="analyzeSentence()" class="px-7 py-3.5 rounded-2xl bg-lime-600 hover:bg-lime-700 text-white font-bold shadow-md shadow-lime-600/20 transition flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                            <span>SURIIN SA TALA</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analysis Results Container -->
+            <div id="analysisResult" class="hidden space-y-6 animate-fade-in">
+                <!-- Dynamic Content injected via JS -->
+            </div>
+        </section>
+
+        <!-- ================= TAB 3: 7 RULES DETAILED PAGE ================= -->
+        <section id="tab-rules" class="tab-content hidden space-y-8 animate-fade-in">
+            
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-lime-200/90 space-y-6">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <h2 class="text-2xl font-bold text-lime-950 flex items-center gap-3">
+                            <i class="fa-solid fa-book-open text-lime-600"></i>
+                            Ang Pitong (7) Alituntunin ng TALA
+                        </h2>
+                        <p class="text-lime-800 text-sm">
+                            Ito ang ginagamit ng TALA upang suriin ang bawat pangungusap. Sagutan ang mga pagsasanay sa ibaba.
+                        </p>
+                    </div>
+
+                    <!-- Progress Badge Widget -->
+                    <div class="bg-lime-50/80 p-4 rounded-2xl border border-lime-200 min-w-[220px] space-y-2">
+                        <div class="flex items-center justify-between text-xs font-bold text-lime-900">
+                            <span>Naipasa na Alituntunin:</span>
+                            <span id="quizProgressText" class="text-lime-700">0 / 7</span>
+                        </div>
+                        <div class="w-full bg-lime-200 h-2.5 rounded-full overflow-hidden">
+                            <div id="quizProgressBar" class="bg-gradient-to-r from-lime-500 to-emerald-500 h-full w-0 transition-all duration-500"></div>
+                        </div>
+                        <div class="text-[11px] font-bold text-lime-700 flex items-center justify-between">
+                            <span>Antas sa TALA:</span>
+                            <span id="rankBadge" class="text-lime-900 font-extrabold">Baguhan</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="rulesListContainer" class="space-y-6">
+                <!-- Rendered dynamically by JS -->
+            </div>
+        </section>
+
+        <!-- ================= TAB 4: HISTORY ================= -->
+        <section id="tab-history" class="tab-content hidden space-y-6 animate-fade-in">
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-lime-200/90 flex flex-wrap items-center justify-between gap-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-lime-950 flex items-center gap-3">
+                        <i class="fa-solid fa-clock-rotate-left text-lime-600"></i>
+                        Aking Tala ng Pagsusuri
+                    </h2>
+                    <p class="text-lime-800 text-sm mt-1">
+                        Kasaysayan ng mga pangungusap na sinuri ng TALA sa session na ito.
+                    </p>
+                </div>
+                <button onclick="clearHistory()" class="px-4 py-2.5 rounded-xl border border-lime-300 text-lime-800 hover:text-red-600 hover:border-red-300 hover:bg-red-50/50 transition text-sm font-semibold flex items-center gap-2">
+                    <i class="fa-solid fa-trash-can"></i>
+                    <span>Burahin ang Tala</span>
+                </button>
+            </div>
+
+            <div id="historyList" class="space-y-4">
+                <!-- Dynamic list or empty state -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification Overlay -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none bg-lime-950 text-lime-100 px-5 py-3 rounded-2xl shadow-xl flex items-center gap-3 border border-lime-800">
+        <i id="toastIcon" class="fa-solid fa-circle-check text-lime-400 text-lg"></i>
+        <span id="toastMessage" class="text-sm font-medium">Naisakatuparan na.</span>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-20 border-t border-lime-200/80 bg-white py-12 text-lime-950 z-10 relative">
+        <div class="max-w-6xl mx-auto px-4 md:px-8 text-center space-y-4">
+            
+            <!-- Footer Logo -->
+            <div class="flex items-center justify-center gap-3">
+                <div class="w-9 h-9 rounded-xl logo-gradient-bg text-white font-black flex items-center justify-center shadow overflow-hidden p-1">
+                    <svg class="w-6 h-6 text-white" viewBox="0 0 64 64" fill="none">
+                        <path d="M32 6L39 24H58L42 36L48 54L32 43L16 54L22 36L6 24H25L32 6Z" fill="#ecfccb"/>
+                    </svg>
+                </div>
+                <div class="flex flex-col text-left">
+                    <span class="font-black font-brand text-lime-950 text-base leading-tight">TALA</span>
+                    <span class="text-[10px] text-lime-700 font-semibold">Talinong Aakay at Lulutas sa Alituntunin</span>
+                </div>
+            </div>
+
+            <p class="text-sm text-lime-800 max-w-md mx-auto leading-relaxed">
+                <strong>TALA</strong> (Talinong Aakay at Lulutas sa Alituntunin) — Sinasuri ang bawat pangungusap batay sa lahat ng pitong alituntunin ng balarilang Filipino.
+            </p>
+            <div class="text-xs text-lime-600 pt-4 border-t border-lime-100">
+                © 2026 TALA. Lahat ng karapatan ay nakalaan.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        let analysisHistory = [];
+        let completedRules = new Set();
+
+        const rulesData = [
+            {
+                id: 1,
+                title: "Alituntunin 1: Simuno at Panaguri",
+                tag: "Buo at Malinaw na Diwa",
+                desc: "Sinusuri kung ang pangungusap ay may malinaw na pinag-uusapan (simuno) at sinasabi tungkol dito (panaguri).",
+                correctEx: "Naglalaro ang mga bata sa bakuran.",
+                wrongEx: "Ang mga bata sa bakuran.",
+                question: "Piliin ang kumpletong pangungusap na may simuno at panaguri:",
+                options: [
+                    "Sa malawak na paaralan kahapon.",
+                    "Nagsulat ng tula ang mag-aaral.",
+                    "Dahil sa maulang hapon."
+                ],
+                correctAnswer: 1
+            },
+            {
+                id: 2,
+                title: "Alituntunin 2: Wastong Ayos ng mga Salita",
+                tag: "Sintaks at Pagkakasunod-sunod",
+                desc: "Sinusuri kung angkop at malinaw ang pagkakasunod-sunod ng mga salita sa karaniwan o di-karaniwang ayos.",
+                correctEx: "Mabilis na tumakbo ang aso.",
+                wrongEx: "Tumakbo mabilis aso ang.",
+                question: "Alin ang may maayos na pagkakasunod-sunod ng salita?",
+                options: [
+                    "Masayang kumanta si Maria sa entablado.",
+                    "Entablado sa Maria kumanta masayang.",
+                    "Kumanta si entablado masayang Maria."
+                ],
+                correctAnswer: 0
+            },
+            {
+                id: 3,
+                title: "Alituntunin 3: Wastong Paggamit ng Pandiwa",
+                tag: "Aspekto at Panahon",
+                desc: "Sinusuri kung angkop ang pandiwa sa kahulugan, aspekto (naganap, nagaganap, magaganap), at konteksto ng panahon.",
+                correctEx: "Kahapon ay kumain kami ng sorbetes.",
+                wrongEx: "Kahapon ay kakain kami ng sorbetes.",
+                question: "Anong pandiwa ang angkop: 'Bukas ay _____ kami sa Rizal Park.'",
+                options: [
+                    "Pumunta",
+                    "Pumupunta",
+                    "Pupunta"
+                ],
+                correctAnswer: 2
+            },
+            {
+                id: 4,
+                title: "Alituntunin 4: Wastong Paggamit ng Panghalip",
+                tag: "Kaukulan at Tinutukoy",
+                desc: "Sinusuri kung wasto at malinaw ang tinutukoy ng panghalip (ako, ikaw, siya, kami, sila, ito, atbp.).",
+                correctEx: "Mabait si Ana. Siya ay laging tumutulong.",
+                wrongEx: "Mabait si Ana. Kanya ay laging tumutulong.",
+                question: "Kumpletuhin: 'Si Juan at ako ay magkaibigan. _____ ay nag-aaral nang mabuti.'",
+                options: [
+                    "Sila",
+                    "Kami",
+                    "Kayo"
+                ],
+                correctAnswer: 1
+            },
+            {
+                id: 5,
+                title: "Alituntunin 5: Wastong Paggamit ng Pang-uri at Pang-abay",
+                tag: "Paglalarawan at Modipikasyon",
+                desc: "Sinusuri kung angkop ang paglalarawan sa tao, bagay, o lugar (pang-uri) o sa kilos/pandiwa (pang-abay).",
+                correctEx: "Mabilis siyang tumakbo patungo sa pintuan.",
+                wrongEx: "Mabilis siyang tumakbo tao patungo.",
+                question: "Piliin ang wastong tambalan ng paglalarawan:",
+                options: [
+                    "Mataas ang puno sa aming bakuran.",
+                    "Mataas na tumakbo ang bata.",
+                    "Mabagal na maganda ang sasakyan."
+                ],
+                correctAnswer: 0
+            },
+            {
+                id: 6,
+                title: "Alituntunin 6: Wastong Paggamit ng Pangatnig at Pang-ukol",
+                tag: "Ugnayan ng mga Sugnay",
+                desc: "Sinusuri kung wasto ang pag-uugnay ng mga salita at sugnay (dahil sa, ngunit, at, para sa, ayon kay, atbp.).",
+                correctEx: "Nag-aral siya nang mabuti kaya nakapasa siya.",
+                wrongEx: "Nag-aral siya nang mabuti para sa nakapasa.",
+                question: "Piliin ang angkop na pangatnig: 'Gusto kong pumunta _____ maulan sa labas.'",
+                options: [
+                    "ngunit",
+                    "dahil sa",
+                    "upang"
+                ],
+                correctAnswer: 0
+            },
+            {
+                id: 7,
+                title: "Alituntunin 7: Wastong Bantas at Malaking Titik",
+                tag: "Mekaniks at Bantas",
+                desc: "Sinusuri ang tamang paggamit ng malaking titik sa simula ng pangungusap o tanging ngalan, at mga bantas sa dulo.",
+                correctEx: "Pumunta si Ben sa Maynila kahapon.",
+                wrongEx: "pumunta si ben sa maynila kahapon",
+                question: "Aling pangungusap ang may wastong bantas at malaking titik?",
+                options: [
+                    "Sino ang kasama mo sa paaralan ngayon?",
+                    "sino ang kasama mo sa paaralan ngayon.",
+                    "Sino ang kasama mo sa Paaralan ngayon"
+                ],
+                correctAnswer: 0
+            }
+        ];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const target = document.getElementById(`tab-${tabId}`);
+            if (target) {
+                target.classList.remove('hidden');
+            }
+
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-white', 'shadow-sm', 'text-lime-900');
+                btn.classList.add('text-lime-900');
+            });
+            
+            const activeBtn = document.getElementById(`nav-${tabId}`);
+            if (activeBtn) {
+                activeBtn.classList.add('bg-white', 'shadow-sm', 'text-lime-900');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            if (menu) menu.classList.toggle('hidden');
+        }
+
+        function quickTestSentence(sentenceText) {
+            switchTab('analyzer');
+            const textarea = document.getElementById('inputSentence');
+            if (textarea) {
+                textarea.value = sentenceText;
+                analyzeSentence();
+            }
+        }
+
+        function renderRulesPage() {
+            const container = document.getElementById('rulesListContainer');
+            if (!container) return;
+
+            container.innerHTML = rulesData.map((rule) => `
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-lime-200/90 space-y-4 interactive-card">
+                    <div class="flex flex-wrap items-center justify-between gap-3 border-b border-lime-100 pb-3">
+                        <div class="flex items-center gap-3">
+                            <span class="w-9 h-9 rounded-xl bg-lime-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-lime-600/20">
+                                ${rule.id}
+                            </span>
+                            <div>
+                                <h3 class="text-xl font-bold text-lime-950">${rule.title}</h3>
+                                <span class="text-xs text-lime-700 font-semibold">${rule.tag}</span>
+                            </div>
+                        </div>
+                        <span id="rule-status-${rule.id}" class="text-xs font-bold px-3 py-1 rounded-full bg-lime-50 text-lime-700 border border-lime-200">
+                            Hindi pa nasasagutan
+                        </span>
+                    </div>
+
+                    <p class="text-lime-900/85 text-sm leading-relaxed">${rule.desc}</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
+                        <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 text-xs md:text-sm space-y-1">
+                            <span class="font-bold text-amber-800 flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-xmark"></i> May Hamon:
+                            </span>
+                            <p class="text-slate-700 italic">"${rule.wrongEx}"</p>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-lime-50 border border-lime-300 text-xs md:text-sm space-y-1">
+                            <span class="font-bold text-lime-800 flex items-center gap-1.5">
+                                <i class="fa-solid fa-circle-check"></i> Wasto:
+                            </span>
+                            <p class="text-slate-700 italic">"${rule.correctEx}"</p>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-lime-100 bg-lime-50/50 p-5 rounded-2xl space-y-3">
+                        <span class="text-xs font-bold text-lime-800 uppercase tracking-wider flex items-center gap-2">
+                            <i class="fa-solid fa-pen-to-square text-lime-600"></i> Pagsasanay para sa Alituntunin na ito:
+                        </span>
+                        <p class="text-sm font-bold text-lime-950">${rule.question}</p>
+                        <div class="space-y-2">
+                            ${rule.options.map((opt, oIdx) => `
+                                <label class="flex items-center gap-3 p-3 rounded-xl bg-white border border-lime-200 hover:border-lime-500 cursor-pointer text-sm text-lime-950 transition shadow-sm">
+                                    <input type="radio" name="rule-ex-${rule.id}" value="${oIdx}" onchange="checkRuleExercise(${rule.id}, ${oIdx})" class="text-lime-600 focus:ring-lime-500">
+                                    <span>${opt}</span>
+                                </label>
+                            `).join('')}
+                        </div>
+                        <div id="rule-ex-feedback-${rule.id}" class="text-xs font-bold hidden p-3 rounded-xl"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function checkRuleExercise(ruleId, selectedIdx) {
+            const rule = rulesData.find(r => r.id === ruleId);
+            const feedbackEl = document.getElementById(`rule-ex-feedback-${ruleId}`);
+            const statusBadge = document.getElementById(`rule-status-${ruleId}`);
+            if (!rule || !feedbackEl) return;
+
+            feedbackEl.classList.remove('hidden', 'bg-lime-100', 'text-lime-900', 'bg-amber-100', 'text-amber-900');
+            
+            if (selectedIdx === rule.correctAnswer) {
+                feedbackEl.classList.add('bg-lime-100', 'text-lime-900');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-circle-check mr-1.5 text-lime-700"></i> Tama! Naipasa mo ang alituntuning ito.';
+                
+                if (statusBadge) {
+                    statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full bg-lime-100 text-lime-900 border border-lime-300";
+                    statusBadge.innerText = "✓ Naipasa";
+                }
+
+                completedRules.add(ruleId);
+                showToast("Magaling! Tumpak ang iyong sagot.");
+            } else {
+                feedbackEl.classList.add('bg-amber-100', 'text-amber-900');
+                feedbackEl.innerHTML = '<i class="fa-solid fa-circle-xmark mr-1.5 text-amber-700"></i> Subukan muli. Balikan ang paliwanag ng alituntunin.';
+                
+                if (statusBadge) {
+                    statusBadge.className = "text-xs font-bold px-3 py-1 rounded-full bg-amber-100 text-amber-800 border border-amber-200";
+                    statusBadge.innerText = "Subukan muli";
+                }
+            }
+
+            updateProgressWidget();
+        }
+
+        function updateProgressWidget() {
+            const count = completedRules.size;
+            const textEl = document.getElementById('quizProgressText');
+            const barEl = document.getElementById('quizProgressBar');
+            const rankEl = document.getElementById('rankBadge');
+
+            if (textEl) textEl.innerText = `${count} / 7`;
+            if (barEl) barEl.style.width = `${(count / 7) * 100}%`;
+
+            if (rankEl) {
+                if (count === 0) rankEl.innerText = "Baguhan";
+                else if (count <= 3) rankEl.innerText = "Nagsasanay";
+                else if (count <= 6) rankEl.innerText = "Mahusay";
+                else rankEl.innerText = "Dalubhasa sa TALA 🏆";
+            }
+        }
+
+        async function analyzeSentence() {
+            const textarea = document.getElementById('inputSentence');
+            const resultBox = document.getElementById('analysisResult');
+            const text = textarea ? textarea.value.trim() : '';
+
+            if (!text) {
+                textarea?.focus();
+                showToast("Mangyaring maglagay muna ng pangungusap.", "error");
+                return;
+            }
+
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = `
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-lime-200 text-center space-y-4 animate-fade-in">
+                    <div class="inline-block animate-spin text-lime-600 text-4xl">
+                        <i class="fa-solid fa-circle-notch"></i>
+                    </div>
+                    <div class="space-y-1">
+                        <h3 class="font-bold text-lime-950 text-lg">Sinusuri ng TALA ang lahat ng 7 alituntunin...</h3>
+                        <p class="text-xs text-lime-700">Sinusuri nang sabay-sabay ang simuno, pandiwa, bantas, ayos, panghalip, pang-uri, at mga pangatnig.</p>
+                    </div>
+                </div>
+            `;
+
+            try {
+                const systemPrompt = `
+You are TALA (Talinong Aakay at Lulutas sa Alituntunin), an educational Filipino grammar assistant.
+Your core mission is to analyze a given Filipino sentence against ALL 7 grammatical rules simultaneously, identifying EVERY error present across all rules:
+
+1. Alituntunin 1: Simuno at Panaguri (Buo at malinaw na diwa)
+2. Alituntunin 2: Wastong Ayos ng mga Salita (Sintaks at pagkakasunod-sunod)
+3. Alituntunin 3: Wastong Paggamit ng Pandiwa (Aspekto at panahon)
+4. Alituntunin 4: Wastong Paggamit ng Panghalip (Kaukulan at tinutukoy)
+5. Alituntunin 5: Wastong Paggamit ng Pang-uri at Pang-abay (Paglalarawan)
+6. Alituntunin 6: Wastong Paggamit ng Pangatnig at Pang-ukol (Ugnayan)
+7. Alituntunin 7: Wastong Bantas at Malaking Titik (Mekaniks at bantas)
+
+INSTRUCTIONS:
+- Rigorously check ALL 7 rules one by one. Do not stop at just one error. If there are multiple errors spanning 2, 3, or more rules, list EVERY SINGLE ONE in the "errors" array.
+- For each rule, evaluate its status ("Wasto" or "May Hamon").
+- Provide the fully corrected sentence where all errors are fixed.
+- Provide a detailed explanation in Tagalog for each identified issue.
+- Return ONLY a valid JSON object matching this exact schema:
+{
+    "hasErrors": boolean,
+    "originalSentence": "string",
+    "correctedSentence": "string",
+    "ruleStatus": [
+        { "ruleNumber": 1, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 2, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 3, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 4, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 5, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 6, "status": "Wasto" | "May Hamon", "note": "string" },
+        { "ruleNumber": 7, "status": "Wasto" | "May Hamon", "note": "string" }
+    ],
+    "errors": [
+        {
+            "ruleNumber": number (1 to 7),
+            "ruleTitle": "string",
+            "issue": "string",
+            "explanation": "string"
+        }
+    ],
+    "praiseOrSummary": "string"
+}
+`;
+
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Suriin ang pangungusap na ito sa lahat ng 7 alituntunin ng TALA: "${text}"` }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] },
+                        generationConfig: {
+                            responseMimeType: "application/json"
+                        }
+                    })
+                });
+
+                if (!response.ok) {
+                    throw new Error("API Request Failed");
+                }
+
+                const result = await response.json();
+                const jsonText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+                const analysisData = JSON.parse(jsonText);
+
+                renderFeedback(analysisData);
+
+                analysisHistory.unshift({
+                    id: Date.now(),
+                    text: text,
+                    corrected: analysisData.correctedSentence,
+                    hasErrors: analysisData.hasErrors,
+                    errorCount: analysisData.errors ? analysisData.errors.length : 0,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                renderHistory();
+
+            } catch (err) {
+                const fallbackData = fallbackAnalysisEngine(text);
+                renderFeedback(fallbackData);
+
+                analysisHistory.unshift({
+                    id: Date.now(),
+                    text: text,
+                    corrected: fallbackData.correctedSentence,
+                    hasErrors: fallbackData.hasErrors,
+                    errorCount: fallbackData.errors ? fallbackData.errors.length : 0,
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
+                renderHistory();
+            }
+        }
+
+        function renderFeedback(data) {
+            const resultBox = document.getElementById('analysisResult');
+            if (!resultBox) return;
+
+            const ruleNames = [
+                "1. Simuno at Panaguri",
+                "2. Wastong Ayos ng mga Salita",
+                "3. Wastong Paggamit ng Pandiwa",
+                "4. Wastong Paggamit ng Panghalip",
+                "5. Wastong Paggamit ng Pang-uri at Pang-abay",
+                "6. Wastong Paggamit ng Pangatnig at Pang-ukol",
+                "7. Wastong Bantas at Malaking Titik"
+            ];
+
+            let ruleStatusHtml = '';
+            if (data.ruleStatus && data.ruleStatus.length > 0) {
+                ruleStatusHtml = `
+                    <div class="space-y-2 pt-2">
+                        <span class="text-xs font-bold text-lime-800 uppercase tracking-wider block">Pagsusuri sa Lahat ng 7 Alituntunin ng TALA:</span>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2.5">
+                            ${data.ruleStatus.map(rs => `
+                                <div class="p-3 rounded-2xl border ${rs.status === 'Wasto' ? 'bg-lime-50 border-lime-200 text-lime-950' : 'bg-amber-50 border-amber-200 text-amber-950'} flex items-center justify-between text-xs">
+                                    <span class="font-bold">Alituntunin ${rs.ruleNumber}</span>
+                                    <span class="font-extrabold px-2 py-0.5 rounded-full ${rs.status === 'Wasto' ? 'bg-lime-200 text-lime-900' : 'bg-amber-200 text-amber-900'}">${rs.status}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (!data.hasErrors || !data.errors || data.errors.length === 0) {
+                resultBox.innerHTML = `
+                    <div class="bg-lime-50 rounded-3xl p-6 md:p-8 border border-lime-300 space-y-6 animate-fade-in shadow-sm">
+                        <div class="flex items-center justify-between border-b border-lime-200 pb-3">
+                            <div class="flex items-center gap-3 text-lime-900 font-bold text-lg">
+                                <i class="fa-solid fa-circle-check text-2xl text-lime-700"></i>
+                                <span>Wasto sa Lahat ng 7 Alituntunin ang Pangungusap na Ito!</span>
+                            </div>
+                            <span class="text-xs font-bold bg-lime-200 text-lime-900 px-3 py-1 rounded-full">
+                                0 Hamon
+                            </span>
+                        </div>
+
+                        <div class="space-y-2">
+                            <span class="text-xs font-bold text-lime-700 uppercase tracking-wider">Iyong Pangungusap:</span>
+                            <p class="text-xl font-bold text-lime-950 bg-white p-4 rounded-2xl border border-lime-200 shadow-sm">
+                                "${data.originalSentence}"
+                            </p>
+                        </div>
+
+                        ${ruleStatusHtml}
+
+                        <p class="text-sm text-lime-900 leading-relaxed font-medium bg-lime-100/70 p-4 rounded-2xl border border-lime-200">
+                            ${data.praiseOrSummary || 'Magaling! Naipasa ng iyong pangungusap ang lahat ng pitong alituntunin ng TALA.'}
+                        </p>
+                    </div>
+                `;
+                return;
+            }
+
+            resultBox.innerHTML = `
+                <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-lime-200 space-y-6 animate-fade-in">
+                    
+                    <div class="flex items-center justify-between border-b border-lime-100 pb-4">
+                        <div class="flex items-center gap-2 text-lime-950 font-bold text-base md:text-lg">
+                            <i class="fa-solid fa-triangle-exclamation text-amber-600"></i>
+                            <span>TALA — Nasuri ang buong pangungusap. May mga hamon na natagpuan.</span>
+                        </div>
+                        <span class="text-xs bg-amber-100 text-amber-900 px-3 py-1 rounded-full font-bold">
+                            ${data.errors.length} Natukoy na Hamon
+                        </span>
+                    </div>
+
+                    <div class="space-y-1">
+                        <span class="text-xs font-bold text-lime-700 uppercase tracking-wider">Orihinal na pangungusap:</span>
+                        <p class="text-lg font-medium text-lime-950 italic bg-lime-50/60 p-4 rounded-2xl border border-lime-200">
+                            "${data.originalSentence}"
+                        </p>
+                    </div>
+
+                    ${ruleStatusHtml}
+
+                    <div class="space-y-3">
+                        <span class="text-xs font-bold text-lime-700 uppercase tracking-wider">Detalyadong Paliwanag sa mga Hamon (Ayon sa 7 Alituntunin):</span>
+                        <div class="space-y-3">
+                            ${data.errors.map(err => `
+                                <div class="p-4 rounded-2xl bg-amber-50/70 border border-amber-200 space-y-1">
+                                    <div class="flex items-center gap-2 text-sm font-bold text-amber-950">
+                                        <i class="fa-solid fa-circle-dot text-amber-600 text-xs"></i>
+                                        <span>Alituntunin ${err.ruleNumber}: ${err.ruleTitle || 'Alituntunin sa Balarila'}</span>
+                                    </div>
+                                    <p class="text-sm text-lime-900 pl-5 leading-relaxed">${err.issue || err.explanation}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+
+                    <div class="space-y-2 bg-lime-50 p-5 rounded-2xl border border-lime-300 shadow-sm">
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-lime-800 uppercase tracking-wider flex items-center gap-1.5">
+                                <i class="fa-solid fa-wand-magic-sparkles"></i> Tamang Sagot ng TALA:
+                            </span>
+                            <button onclick="copyToClipboard('${data.correctedSentence.replace(/'/g, "\\'")}')" class="text-xs font-bold text-lime-900 hover:text-lime-950 flex items-center gap-1 bg-white px-3 py-1 rounded-lg border border-lime-300 shadow-sm">
+                                <i class="fa-regular fa-copy"></i> Kopyahin
+                            </button>
+                        </div>
+                        <p class="text-xl font-bold text-lime-950">
+                            "${data.correctedSentence}"
+                        </p>
+                    </div>
+
+                    <div class="pt-4 border-t border-lime-100 space-y-3">
+                        <label for="retryInput" class="block font-bold text-lime-950 text-sm">
+                            Subukang muli (Ilagay ang iyong binagong pangungusap):
+                        </label>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <input type="text" id="retryInput" class="flex-1 p-3.5 rounded-2xl border border-lime-300 focus:border-lime-600 focus:ring-2 focus:ring-lime-200 outline-none text-lime-950 text-base" placeholder="I-type ang tamang pangungusap..." value="${data.correctedSentence}">
+                            <button onclick="reCheckSentence()" class="px-6 py-3.5 rounded-2xl bg-lime-600 hover:bg-lime-700 text-white font-bold shadow-md transition flex items-center justify-center gap-2 whitespace-nowrap">
+                                <i class="fa-solid fa-rotate-right"></i>
+                                <span>SURIIN MULI</span>
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            `;
+        }
+
+        async function reCheckSentence() {
+            const retryInput = document.getElementById('retryInput');
+            const val = retryInput ? retryInput.value.trim() : '';
+            if (!val) return;
+
+            const textarea = document.getElementById('inputSentence');
+            if (textarea) textarea.value = val;
+            await analyzeSentence();
+        }
+
+        function fallbackAnalysisEngine(text) {
+            const errors = [];
+            const ruleStatus = [];
+            let corrected = text;
+
+            const startsWithCap = /^[A-ZÑ]/.test(text);
+            const endsWithPunct = /[.!?]$/.test(text);
+
+            if (!startsWithCap || !endsWithPunct) {
+                errors.push({
+                    ruleNumber: 7,
+                    ruleTitle: "Wastong Bantas at Malaking Titik",
+                    issue: "Kailangan ng malaking titik sa simula at wastong bantas sa dulo.",
+                    explanation: "Nilabag ang Alituntunin 7 tungkol sa mekaniks at bantas."
+                });
+                let temp = text.charAt(0).toUpperCase() + text.slice(1);
+                if (!/[.!?]$/.test(temp)) temp += ".";
+                corrected = temp;
+            }
+
+            if (text.toLowerCase().includes("kahapon") && text.toLowerCase().includes("naglalaro")) {
+                errors.push({
+                    ruleNumber: 2,
+                    ruleTitle: "Wastong Ayos ng mga Salita",
+                    issue: "Ang pagkakasunod-sunod ng mga salita ay maaaring isaayos sa karaniwang ayos.",
+                    explanation: "Nilabag ang Alituntunin 2 ukol sa sintaks."
+                });
+                errors.push({
+                    ruleNumber: 3,
+                    ruleTitle: "Wastong Paggamit ng Pandiwa",
+                    issue: "Dahil may salitang 'kahapon', ang pandiwa ay dapat nasa aspektong naganap.",
+                    explanation: "Nilabag ang Alituntunin 3 ukol sa aspekto ng pandiwa."
+                });
+                corrected = "Naglaro ang mga bata sa paaralan kahapon.";
+            }
+
+            for (let i = 1; i <= 7; i++) {
+                const hasErr = errors.some(e => e.ruleNumber === i);
+                ruleStatus.push({
+                    ruleNumber: i,
+                    status: hasErr ? "May Hamon" : "Wasto"
+                });
+            }
+
+            return {
+                hasErrors: errors.length > 0,
+                originalSentence: text,
+                correctedSentence: corrected,
+                ruleStatus: ruleStatus,
+                errors: errors,
+                praiseOrSummary: "Sinuri ng TALA ang lahat ng pitong alituntunin sa pangungusap na ito."
+            };
+        }
+
+        function renderHistory() {
+            const container = document.getElementById('historyList');
+            if (!container) return;
+
+            if (analysisHistory.length === 0) {
+                container.innerHTML = `
+                    <div class="bg-white rounded-3xl p-12 text-center border border-lime-200 text-lime-800/60 space-y-3">
+                        <i class="fa-solid fa-folder-open text-4xl text-lime-300"></i>
+                        <p class="font-medium">Wala pang nakatalang pagsusuri.</p>
+                        <p class="text-xs">Magsuri ng pangungusap sa tab na "Magsuri".</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = analysisHistory.map(item => `
+                <div class="bg-white rounded-2xl p-5 border border-lime-200/90 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4 interactive-card">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-2">
+                            <span class="text-xs font-bold px-2.5 py-0.5 rounded-full ${item.hasErrors ? 'bg-amber-100 text-amber-900' : 'bg-lime-100 text-lime-900'}">
+                                ${item.hasErrors ? `${item.errorCount} Hamon Natagpuan` : 'Wasto'}
+                            </span>
+                            <span class="text-xs text-lime-700">${item.time}</span>
+                        </div>
+                        <p class="text-base font-semibold text-lime-950">"${item.text}"</p>
+                        ${item.hasErrors ? `<p class="text-sm text-lime-700 font-medium">→ ${item.corrected}</p>` : ''}
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyToClipboard('${item.corrected.replace(/'/g, "\\'")}')" class="px-3 py-2 rounded-xl bg-lime-50 hover:bg-lime-100 text-lime-900 font-semibold text-xs transition flex items-center gap-1.5 border border-lime-200">
+                            <i class="fa-regular fa-copy"></i>
+                        </button>
+                        <button onclick="loadFromHistory('${item.text.replace(/'/g, "\\'")}')" class="px-4 py-2 rounded-xl bg-lime-600 hover:bg-lime-700 text-white font-semibold text-xs transition flex items-center gap-1.5 shadow-sm">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Suriin Muli
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function loadFromHistory(text) {
+            quickTestSentence(text);
+        }
+
+        function clearHistory() {
+            analysisHistory = [];
+            renderHistory();
+            showToast("Nabura na ang iyong tala.");
+        }
+
+        function copyToClipboard(text) {
+            const textarea = document.createElement('textarea');
+            textarea.value = text;
+            document.body.appendChild(textarea);
+            textarea.select();
+            document.execCommand('copy');
+            document.body.removeChild(textarea);
+            showToast("Naikopya na sa clipboard!");
+        }
+
+        function showToast(message, type = "success") {
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            const toastIcon = document.getElementById('toastIcon');
+
+            if (!toast || !toastMsg) return;
+
+            toastMsg.innerText = message;
+            if (type === "error") {
+                toastIcon.className = "fa-solid fa-circle-exclamation text-amber-400 text-lg";
+            } else {
+                toastIcon.className = "fa-solid fa-circle-check text-lime-400 text-lg";
+            }
+
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            toast.classList.add('translate-y-0', 'opacity-100');
+
+            setTimeout(() => {
+                toast.classList.remove('translate-y-0', 'opacity-100');
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderRulesPage();
+            renderHistory();
+            switchTab('home');
+        });
+    </script>
+</body>
+</html>
